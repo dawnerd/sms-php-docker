@@ -10,10 +10,11 @@ RUN apt-get update && apt-get install -y \
         libmemcached-dev \
         zlib1g-dev \
     && pecl install memcached \
-    && docker-php-ext-install -j$(nproc) iconv mcrypt \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && pecl install mcrypt-1.0.3 \
+    && docker-php-ext-install -j$(nproc) iconv \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd pdo mysqli \
-    && docker-php-ext-enable memcached opcache
+    && docker-php-ext-enable memcached opcache mcrypt
 
 RUN a2enmod rewrite
 RUN a2enmod headers
